@@ -19,8 +19,5 @@ public class Content_VIEW {
 		jPanel_Content = new JPanel();
 		jPanel_Content.setLayout(null);
 		GiaoDienChinh.jFrame.add(jPanel_Content, BorderLayout.CENTER);
-		System.out.println("trịnh hoàng phú");
-		
-		
 	}
 }

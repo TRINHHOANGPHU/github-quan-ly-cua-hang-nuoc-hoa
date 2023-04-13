@@ -74,7 +74,13 @@ public class MenuLeft_VIEW {
 		jPanel_MenuLeft_Parent.setPreferredSize(new Dimension(250, 0));
 		jPanel_MenuLeft_Parent.setLayout(new BorderLayout());
 		
-		imageIcon_Image_Purfome = new ImageIcon(xuLyAnh.icon_MenuLeft_Image_Purfome(new ImageIcon(xuLyAnh.getInstance().getResource_Image(string_Image_Purfome)).getImage()));
+		imageIcon_Image_Purfome = new ImageIcon(
+				xuLyAnh.icon_MenuLeft_Image_Purfome(
+						new ImageIcon(
+								xuLyAnh.getInstance().getResource_Image(string_Image_Purfome)
+								).getImage()
+						)
+				);
 		jLabel_Image = new JLabel(imageIcon_Image_Purfome);
 		jLabel_Image.setPreferredSize(new Dimension(250, 170));
 		jLabel_Image.setBackground(Color.decode(mauChuDe.COLOR_BACKGROUND_IMAGE.getMaMau()));

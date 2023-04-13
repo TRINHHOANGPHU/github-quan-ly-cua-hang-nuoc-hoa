@@ -8,13 +8,13 @@ public class InnerContent {
 
 	public InnerContent() {
 		if (MenuLeft_CONTROLLER.flag == 1) {
-			Content_VIEW.jPanel_Content.setBackground(Color.BLACK);
+			
 		} else if (MenuLeft_CONTROLLER.flag == 2) {
-			Content_VIEW.jPanel_Content.setBackground(Color.GREEN);
+			
 		} else if (MenuLeft_CONTROLLER.flag == 3) {
-			Content_VIEW.jPanel_Content.setBackground(Color.BLUE);
+			
 		} else if (MenuLeft_CONTROLLER.flag == 4) {
-			Content_VIEW.jPanel_Content.setBackground(Color.PINK);
+			
 		} else if (MenuLeft_CONTROLLER.flag == 5) {
 			
 		} else if (MenuLeft_CONTROLLER.flag == 6) {
