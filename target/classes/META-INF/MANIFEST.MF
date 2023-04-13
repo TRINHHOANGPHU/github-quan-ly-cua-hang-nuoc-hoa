@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: trinh_hoang_phu
-Build-Jdk: 18.0.2.1
+Built-By: LaptopOne
+Build-Jdk: 19.0.2
 Created-By: Maven Integration for Eclipse
 
