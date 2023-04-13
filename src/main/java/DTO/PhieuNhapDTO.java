@@ -8,18 +8,16 @@ public class PhieuNhapDTO {
 	private int maNCC;
 	private int maNV;
 	private Date ngayNhap;
-	private Time thoiGianNhap;
 	private double tongTien;
 
 	public PhieuNhapDTO() {
 	}
 
-	public PhieuNhapDTO(int maPN, int maNCC, int maNV, Date ngayNhap, Time thoiGianNhap, double tongTien) {
+	public PhieuNhapDTO(int maPN, int maNCC, int maNV, Date ngayNhap, double tongTien) {
 		this.maPN = maPN;
 		this.maNCC = maNCC;
 		this.maNV = maNV;
 		this.ngayNhap = ngayNhap;
-		this.thoiGianNhap = thoiGianNhap;
 		this.tongTien = tongTien;
 	}
 
@@ -53,14 +51,6 @@ public class PhieuNhapDTO {
 
 	public void setNgayNhap(Date ngayNhap) {
 		this.ngayNhap = ngayNhap;
-	}
-
-	public Time getThoiGianNhap() {
-		return thoiGianNhap;
-	}
-
-	public void setThoiGianNhap(Time thoiGianNhap) {
-		this.thoiGianNhap = thoiGianNhap;
 	}
 
 	public double getTongTien() {
