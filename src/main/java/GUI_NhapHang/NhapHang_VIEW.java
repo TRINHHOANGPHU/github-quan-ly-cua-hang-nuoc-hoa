@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,6 +19,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import DTO.ChiTietPhieuNhapDTO;
 import GUI.Content_VIEW;
 import generalRules.fontChuDe;
 import generalRules.mauChuDe;
@@ -26,19 +29,21 @@ public class NhapHang_VIEW extends JPanel {
 	public JPanel jPanel_scrollpane_table;
 	public JScrollPane jScrollPane_Table;
 	public JTable jTable;
-	public DefaultTableModel defaultTableModel;
+	public DefaultTableModel model;
+	public JTextField donGiatext;
+	public JTextField maSPtext;
+	public JTextField SoLuongtext;
+	public JLabel NhapHang_btn;
+	public JLabel Dung_btn;
+	public JLabel Them_btn;
+	public JLabel Xoa_btn;
+	public JLabel total_label;
 	public String[][] datas = {};
-	private JTextField donGiatext;
-	private JLabel NhapHang_btn;
-	private JLabel Dung_btn;
-	private JTextField maSPtext;
-	private JTextField SoLuongtext;
-	private JLabel Them_btn;
-	private JLabel Xoa_btn;
 	public String[] columns = {"Sản phẩm", "Số lượng", "Đơn giá", "Tổng giá" };
-	private JLabel total_label;
+	public NhapHang_CONTROLLER control = new NhapHang_CONTROLLER(this);
 
 	public NhapHang_VIEW() {
+		setLayout(new BorderLayout(0, 0));
 		
 		// Tạo một MatteBorder đen với viền xung quanh
 		Border matte = BorderFactory.createMatteBorder(0, 2, 5, 2, Color.BLACK);
@@ -56,6 +61,7 @@ public class NhapHang_VIEW extends JPanel {
 		NhapHang_btn.setFont(new Font("Arial", Font.BOLD, 18));
 		NhapHang_btn.setBackground(new Color(47, 62, 70));
 		jPanel_Input.add(NhapHang_btn);
+		NhapHang_btn.addMouseListener(control);
 		
 		maSPtext = new JTextField();
 		maSPtext.setEnabled(false);
@@ -89,35 +95,7 @@ public class NhapHang_VIEW extends JPanel {
 		Them_btn.setFont(new Font("Arial", Font.BOLD, 18));
 		Them_btn.setBackground(new Color(47, 62, 70));
 		jPanel_Input.add(Them_btn);
-
-		defaultTableModel = new DefaultTableModel(datas, columns);
-
-		jTable = new JTable();
-		jTable.setModel(defaultTableModel);
-		jTable.setRowHeight(40);
-		jTable.setGridColor(Color.decode(mauChuDe.COLOR_BACKGROUND_TITLE.getMaMau()));
-		jTable.setAutoCreateRowSorter(true);
-		jTable.getTableHeader().setBackground(Color.decode(mauChuDe.COLOR_BACKGROUND_TITLE.getMaMau()));
-		jTable.getTableHeader().setForeground(Color.white);
-		jTable.getTableHeader().setFont(fontChuDe.FONT_MENU_LEFT.getFont());
-		jTable.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(jTable, matte, false, false, 0, 0).setPreferredSize(new Dimension(0, 40));
-
-		jScrollPane_Table = new JScrollPane(jTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		jScrollPane_Table.setOpaque(true);
-		
-		jPanel_scrollpane_table = new JPanel();
-		jPanel_scrollpane_table.setLayout(new BorderLayout());
-		jPanel_scrollpane_table.setBackground(Color.black);
-		
-		total_label = new JLabel("Tổng tiền: ");
-		total_label.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		total_label.setForeground(new Color(255, 255, 255));
-		total_label.setHorizontalAlignment(SwingConstants.TRAILING);
-		jPanel_scrollpane_table.add(total_label, BorderLayout.SOUTH);
-		jPanel_scrollpane_table.add(jScrollPane_Table, BorderLayout.CENTER);
-		setLayout(new BorderLayout(0, 0));
-
-		this.add(jPanel_Input, BorderLayout.WEST);
+		Them_btn.addMouseListener(control);
 		
 		Xoa_btn = new JLabel("XÓA", SwingConstants.CENTER);
 		Xoa_btn.setEnabled(false);
@@ -136,9 +114,60 @@ public class NhapHang_VIEW extends JPanel {
 		Dung_btn.setFont(new Font("Arial", Font.BOLD, 18));
 		Dung_btn.setBackground(new Color(47, 62, 70));
 		jPanel_Input.add(Dung_btn);
+		
+		
+		model = new DefaultTableModel(datas, columns);
+		
+		jTable = new JTable();
+		jTable.setModel(model);
+		jTable.setRowHeight(40);
+		jTable.setGridColor(Color.decode(mauChuDe.COLOR_BACKGROUND_TITLE.getMaMau()));
+		jTable.setAutoCreateRowSorter(true);
+		jTable.getTableHeader().setBackground(Color.decode(mauChuDe.COLOR_BACKGROUND_TITLE.getMaMau()));
+		jTable.getTableHeader().setForeground(Color.white);
+		jTable.getTableHeader().setFont(fontChuDe.FONT_MENU_LEFT.getFont());
+		jTable.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(jTable, matte, false, false, 0, 0).setPreferredSize(new Dimension(0, 40));
+		
+		jScrollPane_Table = new JScrollPane(jTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jScrollPane_Table.setOpaque(true);
+		
+		jPanel_scrollpane_table = new JPanel();
+		jPanel_scrollpane_table.setLayout(new BorderLayout(0,0));
+		jPanel_scrollpane_table.setBackground(Color.black);
+		jPanel_scrollpane_table.add(jScrollPane_Table, BorderLayout.CENTER);
+		
+		total_label = new JLabel("Tổng tiền: ");
+		total_label.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		total_label.setForeground(new Color(255, 255, 255));
+		total_label.setHorizontalAlignment(SwingConstants.TRAILING);
+		jPanel_scrollpane_table.add(total_label, BorderLayout.SOUTH);
+		
 		this.add(jPanel_scrollpane_table, BorderLayout.CENTER);
+		this.add(jPanel_Input, BorderLayout.WEST);
 		
 		Content_VIEW.jPanel_Content.add(this);
+	
 	}
-
+	public void clearTextField() {
+		this.maSPtext.setText("");
+		this.SoLuongtext.setText("");
+		this.donGiatext.setText("");
+	}
+	
+	public void activeNhapHang() {
+		maSPtext.setEnabled(true);
+		SoLuongtext.setEnabled(true);
+		donGiatext.setEnabled(true);
+		Them_btn.setEnabled(true);
+		Dung_btn.setEnabled(true);
+	}
+	
+	public void updateTable(ArrayList<ChiTietPhieuNhapDTO> list) {
+		model = new DefaultTableModel(datas, columns);
+		for (ChiTietPhieuNhapDTO item : list) {
+			model.addRow(new Object[] {item.getMaSP(), item.getSoLuong(),
+					item.getDonGia(), item.getSoLuong()*item.getDonGia()});
+		}
+		jTable.setModel(model);
+	}
 }
