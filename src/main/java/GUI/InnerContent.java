@@ -2,8 +2,8 @@ package GUI;
 
 import java.awt.Color;
 
-import GUI_ChiTietPhieuNhap.ChiTietPhieuNhap_VIEW;
 import GUI_NhaCungCap.NhaCungCap_VIEW;
+import GUI_NhapHang.NhapHang_VIEW;
 import GUI_PhieuNhap.PhieuNhap_VIEW;
 
 public class InnerContent {
@@ -20,7 +20,7 @@ public class InnerContent {
 		} else if (MenuLeft_CONTROLLER.flag == 5) {
 			
 		} else if (MenuLeft_CONTROLLER.flag == 6) {
-			new ChiTietPhieuNhap_VIEW();
+			new NhapHang_VIEW();
 		} else if (MenuLeft_CONTROLLER.flag == 7) {
 			new PhieuNhap_VIEW();
 		} else if (MenuLeft_CONTROLLER.flag == 8) {
