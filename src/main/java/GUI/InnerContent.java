@@ -1,7 +1,4 @@
 package GUI;
-
-import java.awt.Color;
-
 import GUI_NhaCungCap.NhaCungCap_VIEW;
 import GUI_NhapHang.NhapHang_VIEW;
 import GUI_PhieuNhap.PhieuNhap_VIEW;

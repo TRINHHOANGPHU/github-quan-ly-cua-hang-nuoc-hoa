@@ -58,6 +58,7 @@ public class NhapHang_VIEW extends JPanel {
 		jPanel_Input.add(NhapHang_btn);
 		
 		maSPtext = new JTextField();
+		maSPtext.setEnabled(false);
 		maSPtext.setPreferredSize(new Dimension(300, 50));
 		maSPtext.setFont(new Font("Arial", Font.PLAIN, 15));
 		maSPtext.setBorder(
@@ -65,6 +66,7 @@ public class NhapHang_VIEW extends JPanel {
 		jPanel_Input.add(maSPtext);
 		
 		SoLuongtext = new JTextField();
+		SoLuongtext.setEnabled(false);
 		SoLuongtext.setPreferredSize(new Dimension(300, 50));
 		SoLuongtext.setFont(new Font("Arial", Font.PLAIN, 15));
 		SoLuongtext.setBorder(
@@ -72,6 +74,7 @@ public class NhapHang_VIEW extends JPanel {
 		jPanel_Input.add(SoLuongtext);
 		
 		donGiatext = new JTextField();
+		donGiatext.setEnabled(false);
 		donGiatext.setPreferredSize(new Dimension(300, 50));
 		donGiatext.setFont(fontChuDe.FONT_MENU_LEFT.getFont());
 		donGiatext.setBorder(
@@ -79,6 +82,7 @@ public class NhapHang_VIEW extends JPanel {
 		jPanel_Input.add(donGiatext);
 		
 		Them_btn = new JLabel("THÊM", SwingConstants.CENTER);
+		Them_btn.setEnabled(false);
 		Them_btn.setPreferredSize(new Dimension(300, 50));
 		Them_btn.setOpaque(true);
 		Them_btn.setForeground(Color.WHITE);
@@ -116,6 +120,7 @@ public class NhapHang_VIEW extends JPanel {
 		this.add(jPanel_Input, BorderLayout.WEST);
 		
 		Xoa_btn = new JLabel("XÓA", SwingConstants.CENTER);
+		Xoa_btn.setEnabled(false);
 		Xoa_btn.setPreferredSize(new Dimension(100, 50));
 		Xoa_btn.setOpaque(true);
 		Xoa_btn.setForeground(Color.WHITE);
@@ -124,6 +129,7 @@ public class NhapHang_VIEW extends JPanel {
 		jPanel_Input.add(Xoa_btn);
 		
 		Dung_btn = new JLabel("DỪNG VÀ LƯU", SwingConstants.CENTER);
+		Dung_btn.setEnabled(false);
 		Dung_btn.setPreferredSize(new Dimension(175, 50));
 		Dung_btn.setOpaque(true);
 		Dung_btn.setForeground(Color.WHITE);
