@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.mysql.cj.jdbc.DatabaseMetaData;
-import com.mysql.jdbc.Driver;
+
 
 public class JDBCUtil {
 
@@ -13,7 +12,7 @@ public class JDBCUtil {
 		Connection c = null;
 
 		try {
-			DriverManager.registerDriver(new Driver());
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 			String url = "jdbc:mySQL://localhost:3306/quanlybanhang";
 			String username = "root";
 			String pass = "";
