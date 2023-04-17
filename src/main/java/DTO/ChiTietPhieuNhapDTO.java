@@ -47,5 +47,7 @@ public class ChiTietPhieuNhapDTO {
 	public void setDonGia(double donGia) {
 		this.donGia = donGia;
 	}
-
+	public String toString() {
+		return maPN+" "+maSP+" "+soLuong+" "+donGia ;
+	}
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,6 +42,7 @@ public class NhapHang_VIEW extends JPanel {
 	public String[][] datas = {};
 	public String[] columns = {"Sản phẩm", "Số lượng", "Đơn giá", "Tổng giá" };
 	public NhapHang_CONTROLLER control = new NhapHang_CONTROLLER(this);
+	public JLabel Sua_btn;
 
 	public NhapHang_VIEW() {
 		setLayout(new BorderLayout(0, 0));
@@ -52,7 +54,7 @@ public class NhapHang_VIEW extends JPanel {
 		jPanel_Input = new JPanel();
 		jPanel_Input.setPreferredSize(new Dimension(350, 10));
 		jPanel_Input.setBackground(Color.decode(mauChuDe.COLOR_BACKGROUND_INPUT_CONTENT.getMaMau()));
-		jPanel_Input.setLayout(new FlowLayout(FlowLayout.LEFT, 25, 30));
+		jPanel_Input.setLayout(new FlowLayout(FlowLayout.LEFT, 25, 25));
 		
 		NhapHang_btn = new JLabel("NHẬP HÀNG", SwingConstants.CENTER);
 		NhapHang_btn.setPreferredSize(new Dimension(300, 50));
@@ -97,6 +99,16 @@ public class NhapHang_VIEW extends JPanel {
 		jPanel_Input.add(Them_btn);
 		Them_btn.addMouseListener(control);
 		
+		Sua_btn = new JLabel("SỬA", SwingConstants.CENTER);
+		Sua_btn.setPreferredSize(new Dimension(300, 50));
+		Sua_btn.setOpaque(true);
+		Sua_btn.setForeground(Color.WHITE);
+		Sua_btn.setFont(new Font("Arial", Font.BOLD, 18));
+		Sua_btn.setEnabled(false);
+		Sua_btn.setBackground(new Color(47, 62, 70));
+		jPanel_Input.add(Sua_btn);
+		Sua_btn.addMouseListener(control);
+		
 		Xoa_btn = new JLabel("XÓA", SwingConstants.CENTER);
 		Xoa_btn.setEnabled(false);
 		Xoa_btn.setPreferredSize(new Dimension(100, 50));
@@ -105,6 +117,7 @@ public class NhapHang_VIEW extends JPanel {
 		Xoa_btn.setFont(new Font("Arial", Font.BOLD, 18));
 		Xoa_btn.setBackground(new Color(47, 62, 70));
 		jPanel_Input.add(Xoa_btn);
+		Xoa_btn.addMouseListener(control);
 		
 		Dung_btn = new JLabel("DỪNG VÀ LƯU", SwingConstants.CENTER);
 		Dung_btn.setEnabled(false);
@@ -114,6 +127,7 @@ public class NhapHang_VIEW extends JPanel {
 		Dung_btn.setFont(new Font("Arial", Font.BOLD, 18));
 		Dung_btn.setBackground(new Color(47, 62, 70));
 		jPanel_Input.add(Dung_btn);
+		Dung_btn.addMouseListener(control);
 		
 		
 		model = new DefaultTableModel(datas, columns);
@@ -127,6 +141,7 @@ public class NhapHang_VIEW extends JPanel {
 		jTable.getTableHeader().setForeground(Color.white);
 		jTable.getTableHeader().setFont(fontChuDe.FONT_MENU_LEFT.getFont());
 		jTable.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(jTable, matte, false, false, 0, 0).setPreferredSize(new Dimension(0, 40));
+		jTable.addMouseListener(control);
 		
 		jScrollPane_Table = new JScrollPane(jTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jScrollPane_Table.setOpaque(true);
@@ -162,6 +177,16 @@ public class NhapHang_VIEW extends JPanel {
 		Dung_btn.setEnabled(true);
 	}
 	
+	public void disActiveNhapHang() {
+		maSPtext.setEnabled(false);
+		SoLuongtext.setEnabled(false);
+		donGiatext.setEnabled(false);
+		Them_btn.setEnabled(false);
+		Dung_btn.setEnabled(false);
+		Xoa_btn.setEnabled(false);
+		Sua_btn.setEnabled(false);
+	}
+	
 	public void updateTable(ArrayList<ChiTietPhieuNhapDTO> list) {
 		model = new DefaultTableModel(datas, columns);
 		for (ChiTietPhieuNhapDTO item : list) {
@@ -170,4 +195,15 @@ public class NhapHang_VIEW extends JPanel {
 		}
 		jTable.setModel(model);
 	}
+	
+	public void setText(int maSP, int SoLuong, double donGia) {
+		this.maSPtext.setText(maSP+"");
+		this.SoLuongtext.setText(SoLuong+"");
+		this.donGiatext.setText(donGia+"");
+	}
+	
+	public void activateWarning(String message) {
+		JOptionPane.showMessageDialog(this, message, "", JOptionPane.WARNING_MESSAGE);
+	}
+	
 }

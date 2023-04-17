@@ -33,8 +33,9 @@ public class NhapHang_DAL implements DALinterface<ChiTietPhieuNhapDTO>{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean delete(ChiTietPhieuNhapDTO t) {

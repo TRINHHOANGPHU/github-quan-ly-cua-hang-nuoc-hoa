@@ -22,12 +22,14 @@ public class GiaoDienChinh {
 	 */
 	public GiaoDienChinh() {
 		jFrame = new JFrame();
-		jFrame.setUndecorated(true);
+//		jFrame.setUndecorated(true);
 		init();
 		jFrame.setVisible(true);
 	}
 	public void init() {
+		jFrame.setResizable(true);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jFrame.setUndecorated(false);
 		jFrame.setSize(1404, 800);
 		jFrame.setLocationRelativeTo(null);
 		jFrame.setLayout(new BorderLayout(0, 0));
