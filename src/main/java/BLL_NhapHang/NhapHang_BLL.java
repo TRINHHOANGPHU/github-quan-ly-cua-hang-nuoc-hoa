@@ -18,5 +18,11 @@ public class NhapHang_BLL {
 		}
 		
 	}
+
+	public static boolean isSpExist(int maSP) {
+		
+		// Chờ DAL của sản phẩm xong mới làm
+		return true;
+	}
 	
 }

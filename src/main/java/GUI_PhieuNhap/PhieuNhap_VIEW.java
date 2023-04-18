@@ -107,6 +107,8 @@ public class PhieuNhap_VIEW extends JPanel {
 		textField_1.setFont(new Font("Arial", Font.PLAIN, 15));
 		text_panel.add(textField_1);
 		
+		
+		
 		textField_2 = new JTextField();
 		textField_2.setPreferredSize(new Dimension(200, 65));
 		textField_2.setFont(new Font("Arial", Font.PLAIN, 15));

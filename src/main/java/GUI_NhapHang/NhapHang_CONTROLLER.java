@@ -4,22 +4,26 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import BLL_NhapHang.NhapHang_BLL;
+import DAL_NhapHang.PhieuNhap_DAL;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.PhieuNhapDTO;
 
 // Thiếu validate input !!!!
+
 public class NhapHang_CONTROLLER implements MouseListener{
 	
 	private NhapHang_VIEW context;
 	private ArrayList<ChiTietPhieuNhapDTO> list;
 	private PhieuNhapDTO phieuNhapNew;
 	private ChiTietPhieuNhapDTO actionNhapHang;
-	private static int autoPhieuNhapID = 0;
+	private static int autoPhieuNhapID;
 	private int currentRow = 0;
 	
 	NhapHang_CONTROLLER(NhapHang_VIEW c){
 		this.context = c;
 		list = new ArrayList<ChiTietPhieuNhapDTO>();
+		// Gán ID cuối trên cơ sở dữ liệu để tiếp tục tự động tạo ID
+		autoPhieuNhapID = PhieuNhap_DAL.getInstance().getLastID();
 	}
 
 	public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -39,12 +43,17 @@ public class NhapHang_CONTROLLER implements MouseListener{
 				int SoLuong = Integer.valueOf(context.SoLuongtext.getText());
 				Double DonGia = Double.valueOf(context.donGiatext.getText());
 				
-				list.add(new ChiTietPhieuNhapDTO(maPN,maSP,SoLuong,DonGia));
-				context.updateTable(list);
-				context.clearTextField();
+				// Validate xem id sản phẩm có tồn tại hay không?
+				if(NhapHang_BLL.isSpExist(maSP)) {	
+					list.add(new ChiTietPhieuNhapDTO(maPN,maSP,SoLuong,DonGia));
+					context.updateTable(list);
+					context.clearTextField();
+				}
+				else return;
 				
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
+				context.activateWarning("Vui lòng không nhập sai định dạng!!!");
 			}
 		}
 		
