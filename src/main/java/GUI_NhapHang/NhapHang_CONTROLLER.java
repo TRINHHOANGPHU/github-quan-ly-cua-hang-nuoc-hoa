@@ -32,6 +32,7 @@ public class NhapHang_CONTROLLER implements MouseListener{
 	public void mouseClicked(java.awt.event.MouseEvent e) {
 		
 		// Xử lý khởi tạo phiếu nhập để thực hiện nhập hàng
+		
 		if (e.getSource().equals(context.NhapHang_btn)) {
 			context.activeNhapHang();
 			phieuNhapNew = new PhieuNhapDTO();
@@ -40,12 +41,10 @@ public class NhapHang_CONTROLLER implements MouseListener{
 			phieuNhapNew.setMaNV(1);
 			
 			totalPrice = 0;
+			context.NhapHang_btn.setEnabled(false);
 		}
 		
 		// Xử lý thêm 1 dòng vào phiếu nhập
-		
-		
-		
 		
 		if (e.getSource().equals(context.Them_btn)) {
 			try {
@@ -138,6 +137,7 @@ public class NhapHang_CONTROLLER implements MouseListener{
 			list.clear();
 			context.updateTable(new ArrayList<ChiTietPhieuNhapDTO>(),totalPrice);
 			context.disActiveNhapHang();
+			context.NhapHang_btn.setEnabled(false);
 		}
 	}
 
