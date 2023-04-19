@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import DTO.PhieuNhapDTO;
 import connectDatabase.JDBCUtil;
+import main.Main;
 
 public class PhieuNhap_DAL implements DALinterface<PhieuNhapDTO>{
 	
@@ -21,7 +22,7 @@ public class PhieuNhap_DAL implements DALinterface<PhieuNhapDTO>{
 			Connection con = JDBCUtil.getConnection();
 			
 			String sql = "INSERT INTO `phieunhap`(`maPN`, `maNCC`, `maNV`, `ngayNhap`, `thoiGianNhap`, `tongTien`) "
-						+ "VALUES (?,?,?,?,?)";
+						+ "VALUES (?,?,?,?,?,?)";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(	1,t.getMaPN());
 			st.setInt(	2,t.getMaNCC());
@@ -29,6 +30,8 @@ public class PhieuNhap_DAL implements DALinterface<PhieuNhapDTO>{
 			st.setDate(	4,t.getNgayNhap());
 			st.setTime(	5,t.getThoiGianNhap());
 			st.setDouble(6, t.getTongTien());
+			
+			st.executeUpdate();
 			
 			JDBCUtil.closeConnection(con);
 			
@@ -41,18 +44,72 @@ public class PhieuNhap_DAL implements DALinterface<PhieuNhapDTO>{
 	}
 
 	public boolean delete(PhieuNhapDTO t) {
-		// TODO Auto-generated method stub
+		try {
+			Connection con = JDBCUtil.getConnection();
+			
+			String sql = "DELETE * FROM `phieunhap` WHERE maPN =?"
+						+ "VALUES (?,?,?,?,?)";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(	1,t.getMaPN());		
+			st.executeUpdate();
+			
+			JDBCUtil.closeConnection(con);
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	public boolean update(PhieuNhapDTO t) {
-		// TODO Auto-generated method stub
+		try {
+			Connection con = JDBCUtil.getConnection();
+			
+			String sql = "UPDATE INTO `phieunhap`(`maPN`, `maNCC`, `maNV`, `ngayNhap`, `thoiGianNhap`, `tongTien`) "
+						+ "VALUES (?,?,?,?,?)";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(	1,t.getMaPN());
+			st.setInt(	2,t.getMaNCC());
+			st.setInt(	3,t.getMaNV());
+			st.setDate(	4,t.getNgayNhap());
+			st.setTime(	5,t.getThoiGianNhap());
+			st.setDouble(6, t.getTongTien());
+			
+			st.executeUpdate();
+			
+			JDBCUtil.closeConnection(con);
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	public PhieuNhapDTO getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		PhieuNhapDTO ketQua = null;
+		Connection con = JDBCUtil.getConnection();
+		
+		try {
+			String sql = "SELECT * FORM phieunhap WHERE id = ?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, id);
+			
+			ResultSet rs = st.executeQuery();
+			
+			if (rs.next()) {
+				ketQua = new PhieuNhapDTO(rs.getInt("MaPN"),rs.getInt("MaNCC"),rs.getInt("maNV"),
+						rs.getDate("ngayNhap"),rs.getTime("thoiGianNhap"),rs.getDouble("tongTien"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JDBCUtil.closeConnection(con);
+		return ketQua;
 	}
 
 	public ArrayList<PhieuNhapDTO> getAll() {
@@ -80,8 +137,7 @@ public class PhieuNhap_DAL implements DALinterface<PhieuNhapDTO>{
 		
 		JDBCUtil.closeConnection(con);
 		
-		return ketQua;
-		
+		return ketQua;	
 	}
 	
 	public int getLastID() {
@@ -105,3 +161,4 @@ public class PhieuNhap_DAL implements DALinterface<PhieuNhapDTO>{
 		return 0;
 	}
 }
+

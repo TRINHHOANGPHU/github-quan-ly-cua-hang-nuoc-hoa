@@ -4,6 +4,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import BLL_NhapHang.NhapHang_BLL;
+import BLL_NhapHang.PhieuNhap_BLL;
 import DAL_NhapHang.PhieuNhap_DAL;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.PhieuNhapDTO;
@@ -18,12 +19,14 @@ public class NhapHang_CONTROLLER implements MouseListener{
 	private ChiTietPhieuNhapDTO actionNhapHang;
 	private static int autoPhieuNhapID;
 	private int currentRow = 0;
+	private double totalPrice = 0;
 	
 	NhapHang_CONTROLLER(NhapHang_VIEW c){
 		this.context = c;
 		list = new ArrayList<ChiTietPhieuNhapDTO>();
 		// Gán ID cuối trên cơ sở dữ liệu để tiếp tục tự động tạo ID
 		autoPhieuNhapID = PhieuNhap_DAL.getInstance().getLastID();
+
 	}
 
 	public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -33,9 +36,17 @@ public class NhapHang_CONTROLLER implements MouseListener{
 			context.activeNhapHang();
 			phieuNhapNew = new PhieuNhapDTO();
 			phieuNhapNew.setMaPN(++autoPhieuNhapID);
+			phieuNhapNew.setMaNCC(1);
+			phieuNhapNew.setMaNV(1);
+			
+			totalPrice = 0;
 		}
 		
 		// Xử lý thêm 1 dòng vào phiếu nhập
+		
+		
+		
+		
 		if (e.getSource().equals(context.Them_btn)) {
 			try {
 				int maPN = phieuNhapNew.getMaPN();
@@ -43,17 +54,20 @@ public class NhapHang_CONTROLLER implements MouseListener{
 				int SoLuong = Integer.valueOf(context.SoLuongtext.getText());
 				Double DonGia = Double.valueOf(context.donGiatext.getText());
 				
-				// Validate xem id sản phẩm có tồn tại hay không?
+				actionNhapHang = new ChiTietPhieuNhapDTO(phieuNhapNew.getMaPN(),maSP,SoLuong,DonGia);
+				// Validate xem id sản phẩm có tồn tại hay không
+				
 				if(NhapHang_BLL.isSpExist(maSP)) {	
-					list.add(new ChiTietPhieuNhapDTO(maPN,maSP,SoLuong,DonGia));
-					context.updateTable(list);
+					list.add(actionNhapHang);
+					updateTotalPrice(actionNhapHang.getTongGia());
+					context.updateTable(list, totalPrice);
 					context.clearTextField();
 				}
 				else return;
 				
 			} catch (NumberFormatException e1) {
 				e1.printStackTrace();
-				context.activateWarning("Vui lòng không nhập sai định dạng!!!");
+				context.activateWarning("Vui lòng không nhập sai định dạng hoạc bỏ trống!!!");
 			}
 		}
 		
@@ -82,11 +96,16 @@ public class NhapHang_CONTROLLER implements MouseListener{
 				actionNhapHang.getSoLuong() != SoLuong ||
 				actionNhapHang.getDonGia() != DonGia ) {
 				
+				updateTotalPrice(-actionNhapHang.getTongGia());
+				
 				actionNhapHang.setMaSP(maSP);
 				actionNhapHang.setSoLuong(SoLuong);
 				actionNhapHang.setDonGia(DonGia);
+				
 				list.set(currentRow, actionNhapHang);
-				context.updateTable(list);
+				
+				updateTotalPrice(actionNhapHang.getTongGia());
+				context.updateTable(list, totalPrice);
 				
 			}else {
 				// Không có thay đổi => thông báo lỗi
@@ -94,17 +113,30 @@ public class NhapHang_CONTROLLER implements MouseListener{
 			}
 			
 			}
-		// Xử lý sửa hàng item nhập đã chọn
+		// Xử lý xóa hàng item nhập đã chọn
 		
 		if (e.getSource().equals(context.Xoa_btn)) {
 			list.remove(currentRow);
-			context.updateTable(list);
+			updateTotalPrice(-actionNhapHang.getTongGia());
+			context.updateTable(list, totalPrice);
 		}
 
 		// Xử lý dừng nhập hàng vào lưu phiếu nhập hàng vào database
 		if (e.getSource().equals(context.Dung_btn)) {
+			
+			if (list.size() < 1) {
+				context.activateWarning("Phiếu nhập không được bỏ trống!");
+				return;
+			}
+			
+			// Thêm phiếu nhập trước để không bị lỗi ràng buộc khóa phụ
+			PhieuNhap_BLL.getCurrentDate(phieuNhapNew);
+			phieuNhapNew.setTongTien(totalPrice);
+			PhieuNhap_BLL.them(phieuNhapNew);
+			// Thêm từng dòng phiếu nhập 	
 			NhapHang_BLL.them(list);
-			context.updateTable(new ArrayList<ChiTietPhieuNhapDTO>());
+			list.clear();
+			context.updateTable(new ArrayList<ChiTietPhieuNhapDTO>(),totalPrice);
 			context.disActiveNhapHang();
 		}
 	}
@@ -115,8 +147,11 @@ public class NhapHang_CONTROLLER implements MouseListener{
 	}
 
 	public void mouseReleased(java.awt.event.MouseEvent e) {
-		// TODO Auto-generated method stub
 		
+		if (e.getSource().equals(context.jTable)) {
+			context.Sua_btn.setEnabled(false);
+			context.Xoa_btn.setEnabled(false);
+		}
 	}
 
 	public void mouseEntered(java.awt.event.MouseEvent e) {
@@ -128,5 +163,7 @@ public class NhapHang_CONTROLLER implements MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-
+	public void updateTotalPrice(double tongTien) {
+		this.totalPrice += tongTien;
+	}
 }

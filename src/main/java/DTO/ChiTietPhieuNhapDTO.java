@@ -50,4 +50,7 @@ public class ChiTietPhieuNhapDTO {
 	public String toString() {
 		return maPN+" "+maSP+" "+soLuong+" "+donGia ;
 	}
+	public double getTongGia() {
+		return this.donGia*this.soLuong;
+	}
 }

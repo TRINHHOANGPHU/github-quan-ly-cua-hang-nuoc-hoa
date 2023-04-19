@@ -15,11 +15,15 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import DTO.ChiTietPhieuNhapDTO;
+import DTO.PhieuNhapDTO;
 import GUI.Content_VIEW;
 import generalRules.fontChuDe;
 import generalRules.mauChuDe;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 
 public class PhieuNhap_VIEW extends JPanel {
@@ -31,14 +35,16 @@ public class PhieuNhap_VIEW extends JPanel {
 
 	public JTable jTable;
 
-	public DefaultTableModel defaultTableModel;
+	public DefaultTableModel model;
 
 	public String[][] datas = {};
 
-	public String[] columns = { "Mã phiếu nhập", "Mã nhà cung cấp", "Mã nhân viên", "Ngày nhập", "Tổng tiền" };
+	public String[] columns = { "Mã phiếu nhập", "Mã nhà cung cấp", "Mã nhân viên", "Ngày nhập", "Thời gian", "Tổng tiền" };
 	private JTextField textField_1;
 	private JTextField textField_2;
-
+	
+	public PhieuNhap_CONTROLLER control;
+	
 	public PhieuNhap_VIEW() {
 		
 		Content_VIEW.jPanel_Content.setLayout(new BorderLayout());
@@ -49,10 +55,10 @@ public class PhieuNhap_VIEW extends JPanel {
 		jPanel_Input = new JPanel();
 		jPanel_Input.setBackground(Color.decode(mauChuDe.COLOR_BACKGROUND_INPUT_CONTENT.getMaMau()));
 
-		defaultTableModel = new DefaultTableModel(datas, columns);
+		model = new DefaultTableModel(datas, columns);
 
 		jTable = new JTable();
-		jTable.setModel(defaultTableModel);
+		jTable.setModel(model);
 		jTable.setRowHeight(40);
 		jTable.setGridColor(Color.decode(mauChuDe.COLOR_BACKGROUND_TITLE.getMaMau()));
 		jTable.setAutoCreateRowSorter(true);
@@ -115,6 +121,17 @@ public class PhieuNhap_VIEW extends JPanel {
 		text_panel.add(textField_2);
 		this.add(jPanel_scrollpane_table);
 		
+		control = new PhieuNhap_CONTROLLER(this);
+		control.loadData();
+		
 		Content_VIEW.jPanel_Content.add(this);
+	}
+	public void updateTable(ArrayList<PhieuNhapDTO> list) {
+		model = new DefaultTableModel(datas, columns);
+		for (PhieuNhapDTO item : list) {
+			model.addRow(new Object[] {item.getMaPN(), item.getMaNCC(),
+					item.getMaNV(), item.getNgayNhap(), item.getThoiGianNhap(), item.getTongTien()});
+		}
+		jTable.setModel(model);
 	}
 }

@@ -187,13 +187,14 @@ public class NhapHang_VIEW extends JPanel {
 		Sua_btn.setEnabled(false);
 	}
 	
-	public void updateTable(ArrayList<ChiTietPhieuNhapDTO> list) {
+	public void updateTable(ArrayList<ChiTietPhieuNhapDTO> list, double total) {
 		model = new DefaultTableModel(datas, columns);
 		for (ChiTietPhieuNhapDTO item : list) {
 			model.addRow(new Object[] {item.getMaSP(), item.getSoLuong(),
-					item.getDonGia(), item.getSoLuong()*item.getDonGia()});
+					item.getDonGia(), (int)item.getTongGia()});
 		}
 		jTable.setModel(model);
+		total_label.setText("Tổng tiền: "+total);
 	}
 	
 	public void setText(int maSP, int SoLuong, double donGia) {

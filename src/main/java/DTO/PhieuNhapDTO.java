@@ -70,5 +70,8 @@ public class PhieuNhapDTO {
 	public void setTongTien(double tongTien) {
 		this.tongTien = tongTien;
 	}
-
+	@Override
+	public String toString() {
+		return maPN+" "+maNCC+" "+maNV+" "+ngayNhap.toString()+" "+thoiGianNhap.toString()+" "+tongTien;
+	}
 }
