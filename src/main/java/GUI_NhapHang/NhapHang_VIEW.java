@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -43,6 +42,8 @@ public class NhapHang_VIEW extends JPanel {
 	public String[] columns = {"Sản phẩm", "Số lượng", "Đơn giá", "Tổng giá" };
 	public NhapHang_CONTROLLER control = new NhapHang_CONTROLLER(this);
 	public JLabel Sua_btn;
+	public JLabel Clear_btn;
+	public JLabel Huy_btn;
 
 	public NhapHang_VIEW() {
 		setLayout(new BorderLayout(0, 0));
@@ -108,6 +109,24 @@ public class NhapHang_VIEW extends JPanel {
 		Sua_btn.setBackground(new Color(47, 62, 70));
 		jPanel_Input.add(Sua_btn);
 		Sua_btn.addMouseListener(control);
+		
+		Huy_btn = new JLabel("HỦY", SwingConstants.CENTER);
+		Huy_btn.setPreferredSize(new Dimension(100, 50));
+		Huy_btn.setOpaque(true);
+		Huy_btn.setForeground(Color.WHITE);
+		Huy_btn.setFont(new Font("Arial", Font.BOLD, 18));
+		Huy_btn.setBackground(new Color(47, 62, 70));
+		jPanel_Input.add(Huy_btn);
+		Huy_btn.addMouseListener(control);
+		
+		Clear_btn = new JLabel("CLEAR", SwingConstants.CENTER);
+		Clear_btn.setPreferredSize(new Dimension(175, 50));
+		Clear_btn.setOpaque(true);
+		Clear_btn.setForeground(Color.WHITE);
+		Clear_btn.setFont(new Font("Arial", Font.BOLD, 18));
+		Clear_btn.setBackground(new Color(47, 62, 70));
+		jPanel_Input.add(Clear_btn);
+		Clear_btn.addMouseListener(control);
 		
 		Xoa_btn = new JLabel("XÓA", SwingConstants.CENTER);
 		Xoa_btn.setEnabled(false);

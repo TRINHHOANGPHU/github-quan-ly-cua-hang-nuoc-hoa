@@ -2,10 +2,13 @@ package DAL_NhapHang;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import DTO.ChiTietPhieuNhapDTO;
+import DTO.PhieuNhapDTO;
 import connectDatabase.JDBCUtil;
 
 public class NhapHang_DAL implements DALinterface<ChiTietPhieuNhapDTO>{
@@ -57,7 +60,30 @@ public class NhapHang_DAL implements DALinterface<ChiTietPhieuNhapDTO>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	public ArrayList<ChiTietPhieuNhapDTO> getByMaPN(int maPN) {
+		ArrayList<ChiTietPhieuNhapDTO> ketQua = new ArrayList<ChiTietPhieuNhapDTO>();
+		Connection con = JDBCUtil.getConnection();
+		
+		try {
+			String sql = "SELECT * FROM `chitietphieunhap` WHERE maPN = "+maPN;
+			PreparedStatement st =  con.prepareStatement(sql);
+			ResultSet rs = st.executeQuery(sql);
+			
+			while (rs.next()) {
+				ChiTietPhieuNhapDTO chitiet = new ChiTietPhieuNhapDTO(rs.getInt("maPN")
+						, rs.getInt("maSP"), rs.getInt("soLuong"), rs.getDouble("donGia"));
+				ketQua.add(chitiet);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JDBCUtil.closeConnection(con);
+		
+		return ketQua;	
+	}
 	
 
 }

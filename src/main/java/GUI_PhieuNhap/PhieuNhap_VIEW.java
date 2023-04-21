@@ -1,5 +1,7 @@
 package GUI_PhieuNhap;
 
+
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,24 +9,25 @@ import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import DTO.ChiTietPhieuNhapDTO;
+
 import DTO.PhieuNhapDTO;
 import GUI.Content_VIEW;
 import generalRules.fontChuDe;
 import generalRules.mauChuDe;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
+import java.util.ArrayList;
+import java.util.Date;
+
+import com.toedter.calendar.JDateChooser;
 
 public class PhieuNhap_VIEW extends JPanel {
 
@@ -40,13 +43,15 @@ public class PhieuNhap_VIEW extends JPanel {
 	public String[][] datas = {};
 
 	public String[] columns = { "Mã phiếu nhập", "Mã nhà cung cấp", "Mã nhân viên", "Ngày nhập", "Thời gian", "Tổng tiền" };
-	private JTextField textField_1;
-	private JTextField textField_2;
 	
 	public PhieuNhap_CONTROLLER control;
+	private JDateChooser dateChooser;
+	public JLabel Detail_btn;
+	public JLabel Tim_btn;
+	public JLabel Huy_btn;
 	
 	public PhieuNhap_VIEW() {
-		
+		control = new PhieuNhap_CONTROLLER(this);
 		Content_VIEW.jPanel_Content.setLayout(new BorderLayout());
 
 		// Tạo một MatteBorder đen với viền xung quanh
@@ -66,7 +71,8 @@ public class PhieuNhap_VIEW extends JPanel {
 		jTable.getTableHeader().setForeground(Color.white);
 		jTable.getTableHeader().setFont(fontChuDe.FONT_MENU_LEFT.getFont());
 		jTable.getTableHeader().getDefaultRenderer().getTableCellRendererComponent(jTable, matte, false, false, 0, 0).setPreferredSize(new Dimension(0, 40));
-
+		jTable.addMouseListener(control);
+		
 		jScrollPane_Table = new JScrollPane(jTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jScrollPane_Table.setOpaque(true);
 		
@@ -81,47 +87,52 @@ public class PhieuNhap_VIEW extends JPanel {
 		
 		JPanel btn_panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) btn_panel.getLayout();
+		flowLayout.setVgap(15);
 		flowLayout.setHgap(50);
-		flowLayout.setAlignment(FlowLayout.LEADING);
 		btn_panel.setOpaque(false);
 		jPanel_Input.add(btn_panel, BorderLayout.EAST);
 		
-		JLabel Xoa_btn = new JLabel("Xóa", SwingConstants.CENTER);
-		Xoa_btn.setPreferredSize(new Dimension(150, 65));
-		Xoa_btn.setOpaque(true);
-		Xoa_btn.setForeground(Color.WHITE);
-		Xoa_btn.setFont(new Font("Arial", Font.BOLD, 18));
-		Xoa_btn.setBackground(new Color(47, 62, 70));
-		btn_panel.add(Xoa_btn);
-		
-		JLabel Tim_btn = new JLabel("Tìm kiếm", SwingConstants.CENTER);
-		Tim_btn.setPreferredSize(new Dimension(150, 65));
+		Tim_btn = new JLabel("Tìm kiếm", SwingConstants.CENTER);
+		Tim_btn.setPreferredSize(new Dimension(150, 50));
 		Tim_btn.setOpaque(true);
 		Tim_btn.setForeground(Color.WHITE);
 		Tim_btn.setFont(new Font("Arial", Font.BOLD, 18));
 		Tim_btn.setBackground(new Color(47, 62, 70));
 		btn_panel.add(Tim_btn);
+		Tim_btn.addMouseListener(control);
 		
-		JPanel text_panel = new JPanel();
-		text_panel.setOpaque(false);
-		FlowLayout flowLayout_1 = (FlowLayout) text_panel.getLayout();
-		flowLayout_1.setHgap(50);
-		jPanel_Input.add(text_panel);
+		Huy_btn = new JLabel("Hủy tìm kiếm", SwingConstants.CENTER);
+		Huy_btn.setPreferredSize(new Dimension(150, 50));
+		Huy_btn.setOpaque(true);
+		Huy_btn.setForeground(Color.WHITE);
+		Huy_btn.setFont(new Font("Arial", Font.BOLD, 18));
+		Huy_btn.setBackground(new Color(47, 62, 70));
+		btn_panel.add(Huy_btn);
+		Huy_btn.addMouseListener(control);
 		
-		textField_1 = new JTextField();
-		textField_1.setPreferredSize(new Dimension(200, 65));
-		textField_1.setFont(new Font("Arial", Font.PLAIN, 15));
-		text_panel.add(textField_1);
+		JPanel filter_panel = new JPanel();
+		filter_panel.setOpaque(false);
+		FlowLayout fl_filter_panel = (FlowLayout) filter_panel.getLayout();
+		fl_filter_panel.setVgap(15);
+		fl_filter_panel.setHgap(75);
+		jPanel_Input.add(filter_panel);
 		
+		Detail_btn = new JLabel("Xem chi tiết", SwingConstants.CENTER);
+		Detail_btn.setPreferredSize(new Dimension(150, 50));
+		Detail_btn.setOpaque(true);
+		Detail_btn.setForeground(Color.WHITE);
+		Detail_btn.setFont(new Font("Arial", Font.BOLD, 18));
+		Detail_btn.setBackground(new Color(47, 62, 70));
+		filter_panel.add(Detail_btn);
+		Detail_btn.addMouseListener(control);
 		
-		
-		textField_2 = new JTextField();
-		textField_2.setPreferredSize(new Dimension(200, 65));
-		textField_2.setFont(new Font("Arial", Font.PLAIN, 15));
-		text_panel.add(textField_2);
+		dateChooser = new JDateChooser();
+		dateChooser.setFocusCycleRoot(true);
+		dateChooser.getCalendarButton().setPreferredSize(new Dimension(25, 17));
+		dateChooser.setPreferredSize(new Dimension(165, 50));
+		filter_panel.add(dateChooser);
 		this.add(jPanel_scrollpane_table);
 		
-		control = new PhieuNhap_CONTROLLER(this);
 		control.loadData();
 		
 		Content_VIEW.jPanel_Content.add(this);
@@ -134,4 +145,15 @@ public class PhieuNhap_VIEW extends JPanel {
 		}
 		jTable.setModel(model);
 	}
+	public java.sql.Date getFindDate() {
+		if (this.dateChooser.getDate() != null) {
+			java.util.Date date = this.dateChooser.getDate();
+			return new java.sql.Date(date.getTime());
+		}
+		return null;
+	}
+	public void activateWarning(String message) {
+		JOptionPane.showMessageDialog(this, message, "", JOptionPane.WARNING_MESSAGE);
+	}
 }
+

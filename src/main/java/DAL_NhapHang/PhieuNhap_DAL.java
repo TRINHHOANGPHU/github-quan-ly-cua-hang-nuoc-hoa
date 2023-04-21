@@ -94,7 +94,7 @@ public class PhieuNhap_DAL implements DALinterface<PhieuNhapDTO>{
 		Connection con = JDBCUtil.getConnection();
 		
 		try {
-			String sql = "SELECT * FORM phieunhap WHERE id = ?";
+			String sql = "SELECT * FROM phieunhap WHERE MaPN = ?";
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(1, id);
 			
@@ -120,7 +120,7 @@ public class PhieuNhap_DAL implements DALinterface<PhieuNhapDTO>{
 		try {
 			Statement st = con.createStatement();
 			
-			String sql = "SELECT * FROM phieunhap";					 
+			String sql = "SELECT * FROM phieunhap ORDER BY maPN DESC";					 
 			
 			ResultSet rs = st.executeQuery(sql);
 			
