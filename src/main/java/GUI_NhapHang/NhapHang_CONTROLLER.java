@@ -1,5 +1,7 @@
 package GUI_NhapHang;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
@@ -11,6 +13,7 @@ import BLL_NhapHang.PhieuNhap_BLL;
 import DAL_NhapHang.PhieuNhap_DAL;
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.PhieuNhapDTO;
+import DTO.SanPhamDTO;
 
 // Thiếu validate input !!!!
 
@@ -78,7 +81,7 @@ public class NhapHang_CONTROLLER implements MouseListener{
 		
 			
 				// Validate xem id sản phẩm có tồn tại hay không				
-				if(NhapHang_BLL.isSpExist(maSP)) {
+				
 					
 					int dupIndex = isDuplicate(maSP);
 					
@@ -96,15 +99,10 @@ public class NhapHang_CONTROLLER implements MouseListener{
 					context.updateTable(list, totalPrice);
 					context.clearTextField();
 					
-				}
-				else {
-					context.activateWarning("Sản phẩm bạn nhập không tồn tại");
-					return;
-				} 
+					focusOnMaSP();
 				
 			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
-				context.activateWarning("Vui lòng không nhập sai định dạng hoạc bỏ trống!!!");
+				context.SoLuongtext.requestFocus();
 			}
 		}
 		
@@ -112,7 +110,7 @@ public class NhapHang_CONTROLLER implements MouseListener{
 		// Xử lý chọn 1 hàng 
 		if (e.getSource().equals(context.jTable)) {	
 			currentRow = context.jTable.getSelectedRow();
-			int maSP 		= (Integer) context.jTable.getValueAt(currentRow, 0);	
+			int maSP 		= (Integer) list.get(currentRow).getMaSP();	
 			int SoLuong 	= (Integer) context.jTable.getValueAt(currentRow, 1);
 			Double DonGia 	= (Double) 	context.jTable.getValueAt(currentRow, 2);
 			
@@ -228,5 +226,31 @@ public class NhapHang_CONTROLLER implements MouseListener{
 			}
 		}
 		return -1;
+	}
+
+	public void loadSP() {	
+		String maSPstring = context.maSPtext.getText();
+		if (maSPstring.length() < 1) return;
+		try {
+			int maSP = Integer.valueOf(maSPstring);
+			if (NhapHang_BLL.isSpExist(maSP)) {
+				SanPhamDTO sp = NhapHang_BLL.getSPinfo(maSP);
+				context.SoLuongtext.setText(1+"");
+				context.donGiatext.setText(sp.getGiaNhap()+"");
+				context.SoLuongtext.selectAll();
+			}
+			else {
+				context.activateWarning("Sản phẩm không tồn tại!");
+				context.clearTextField();
+				focusOnMaSP();
+			}
+		} catch (NumberFormatException e) {
+				context.activateWarning("Vui lòng không nhập sai định dạng");
+				context.clearTextField();
+				focusOnMaSP();
+		}
+	}
+	public void focusOnMaSP() {
+		this.context.maSPtext.requestFocus();;
 	}
 }

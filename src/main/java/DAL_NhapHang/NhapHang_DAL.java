@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import DTO.ChiTietPhieuNhapDTO;
 import DTO.PhieuNhapDTO;
+import DTO.SanPhamDTO;
 import connectDatabase.JDBCUtil;
 
 public class NhapHang_DAL implements DALinterface<ChiTietPhieuNhapDTO>{
@@ -84,6 +85,30 @@ public class NhapHang_DAL implements DALinterface<ChiTietPhieuNhapDTO>{
 		
 		return ketQua;	
 	}
-	
-
+	public SanPhamDTO getSPinfobyId(int id) {
+		SanPhamDTO ketqua = null;
+		Connection con = JDBCUtil.getConnection();
+		
+		try {
+			String sql = "SELECT * FROM `sanpham` WHERE maSP =?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, id);
+			
+			ResultSet rs = st.executeQuery();
+			
+			if (rs.next()){
+				ketqua = new SanPhamDTO();
+				ketqua.setMaSP(rs.getInt("maSP"));
+				ketqua.setTenSP(rs.getString("tenSP"));
+				ketqua.setGiaNhap(rs.getDouble("giaNhap"));		
+			}		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		JDBCUtil.closeConnection(con);
+		return ketqua;
+		
+	}
 }

@@ -19,10 +19,13 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import BLL_NhapHang.NhapHang_BLL;
 import DTO.ChiTietPhieuNhapDTO;
 import GUI.Content_VIEW;
 import generalRules.fontChuDe;
 import generalRules.mauChuDe;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class NhapHang_VIEW extends JPanel {
 	public JPanel jPanel_Input;
@@ -40,12 +43,13 @@ public class NhapHang_VIEW extends JPanel {
 	public JLabel total_label;
 	public String[][] datas = {};
 	public String[] columns = {"Sản phẩm", "Số lượng", "Đơn giá", "Tổng giá" };
-	public NhapHang_CONTROLLER control = new NhapHang_CONTROLLER(this);
 	public JLabel Sua_btn;
 	public JLabel Clear_btn;
 	public JLabel Huy_btn;
+	public NhapHang_CONTROLLER control;
 
 	public NhapHang_VIEW() {
+		control = new NhapHang_CONTROLLER(this);
 		setLayout(new BorderLayout(0, 0));
 		
 		// Tạo một MatteBorder đen với viền xung quanh
@@ -84,6 +88,7 @@ public class NhapHang_VIEW extends JPanel {
 		
 		donGiatext = new JTextField();
 		donGiatext.setEnabled(false);
+		donGiatext.setEditable(false);
 		donGiatext.setPreferredSize(new Dimension(300, 50));
 		donGiatext.setFont(fontChuDe.FONT_MENU_LEFT.getFont());
 		donGiatext.setBorder(
@@ -171,7 +176,7 @@ public class NhapHang_VIEW extends JPanel {
 		jPanel_scrollpane_table.add(jScrollPane_Table, BorderLayout.CENTER);
 		
 		total_label = new JLabel("Tổng tiền: ");
-		total_label.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		total_label.setFont(new Font("Tahoma", Font.BOLD, 14));
 		total_label.setForeground(new Color(255, 255, 255));
 		total_label.setHorizontalAlignment(SwingConstants.TRAILING);
 		jPanel_scrollpane_table.add(total_label, BorderLayout.SOUTH);
@@ -180,7 +185,12 @@ public class NhapHang_VIEW extends JPanel {
 		this.add(jPanel_Input, BorderLayout.WEST);
 		
 		Content_VIEW.jPanel_Content.add(this);
-	
+		maSPtext.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				control.loadSP();
+			}
+		});
 	}
 	public void clearTextField() {
 		this.maSPtext.setText("");
@@ -208,12 +218,14 @@ public class NhapHang_VIEW extends JPanel {
 	
 	public void updateTable(ArrayList<ChiTietPhieuNhapDTO> list, double total) {
 		model = new DefaultTableModel(datas, columns);
+		String nameSP;
 		for (ChiTietPhieuNhapDTO item : list) {
-			model.addRow(new Object[] {item.getMaSP(), item.getSoLuong(),
+			nameSP =NhapHang_BLL.getSPinfo(item.getMaSP()).getTenSP();
+			model.addRow(new Object[] {nameSP, item.getSoLuong(),
 					item.getDonGia(), (int)item.getTongGia()});
 		}
 		jTable.setModel(model);
-		total_label.setText("Tổng tiền: "+total);
+		total_label.setText("Tổng tiền: "+(int)total);
 	}
 	
 	public void setText(int maSP, int SoLuong, double donGia) {

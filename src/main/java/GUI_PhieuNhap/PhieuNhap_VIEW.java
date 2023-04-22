@@ -141,7 +141,7 @@ public class PhieuNhap_VIEW extends JPanel {
 		model = new DefaultTableModel(datas, columns);
 		for (PhieuNhapDTO item : list) {
 			model.addRow(new Object[] {item.getMaPN(), item.getMaNCC(),
-					item.getMaNV(), item.getNgayNhap(), item.getThoiGianNhap(), item.getTongTien()});
+					item.getMaNV(), item.getNgayNhap(), item.getThoiGianNhap(),(int) item.getTongTien()+"đ"});
 		}
 		jTable.setModel(model);
 	}

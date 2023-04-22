@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import DAL_NhapHang.NhapHang_DAL;
 import DAL_NhapHang.PhieuNhap_DAL;
 import DTO.ChiTietPhieuNhapDTO;
+import DTO.SanPhamDTO;
 
 public class NhapHang_BLL {
 	
@@ -17,8 +18,16 @@ public class NhapHang_BLL {
 	}
 
 	public static boolean isSpExist(int maSP) {
-		// Chờ DAL của sản phẩm xong mới làm
-		return true;
+		SanPhamDTO sp = NhapHang_DAL.getInstance().getSPinfobyId(maSP);
+			if (sp != null) {
+			return true;
+		}
+			else {
+			return false;
+		}		
+	}
+	public static SanPhamDTO getSPinfo(int maSP) {
+		return NhapHang_DAL.getInstance().getSPinfobyId(maSP);
 	}
 	
 }
