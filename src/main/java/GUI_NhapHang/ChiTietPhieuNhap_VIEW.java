@@ -16,6 +16,7 @@ import DTO.ChiTietPhieuNhapDTO;
 import DTO.PhieuNhapDTO;
 
 import java.awt.GridLayout;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.awt.FlowLayout;
@@ -103,15 +104,17 @@ public class ChiTietPhieuNhap_VIEW extends JFrame {
 	}
 	
 	public void loadPhieuNhap(ArrayList<ChiTietPhieuNhapDTO> list, PhieuNhapDTO phieuNhap) {
+		DecimalFormat formatter = new DecimalFormat("#,###,###");
 		model = new DefaultTableModel(datas, columns);
 		String nameSP;
 		for (ChiTietPhieuNhapDTO item : list) {
+			
 			nameSP =NhapHang_BLL.getSPinfo(item.getMaSP()).getTenSP();
 			model.addRow(new Object[] {nameSP, item.getSoLuong(),
-					item.getDonGia(), (int)item.getTongGia()+"đ"});
+					formatter.format(item.getDonGia()) , formatter.format((int)item.getTongGia())+"đ"});
 		}
 		table.setModel(model);
-		tongTien.setText((int) phieuNhap.getTongTien()+"đ");
+		tongTien.setText( formatter.format((int)phieuNhap.getTongTien()) +"đ");
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		thoiGian.setText(phieuNhap.getThoiGianNhap().toString()+" - "+sdf.format(phieuNhap.getNgayNhap()).toString());
 		nhanVien.setText("null");

@@ -23,7 +23,7 @@ import generalRules.fontChuDe;
 import generalRules.mauChuDe;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -138,10 +138,11 @@ public class PhieuNhap_VIEW extends JPanel {
 		Content_VIEW.jPanel_Content.add(this);
 	}
 	public void updateTable(ArrayList<PhieuNhapDTO> list) {
+		DecimalFormat fmt = new DecimalFormat("#,###,###");
 		model = new DefaultTableModel(datas, columns);
 		for (PhieuNhapDTO item : list) {
 			model.addRow(new Object[] {item.getMaPN(), item.getMaNCC(),
-					item.getMaNV(), item.getNgayNhap(), item.getThoiGianNhap(),(int) item.getTongTien()+"đ"});
+					item.getMaNV(), item.getNgayNhap(), item.getThoiGianNhap(),fmt.format((int) item.getTongTien())+"đ"});
 		}
 		jTable.setModel(model);
 	}

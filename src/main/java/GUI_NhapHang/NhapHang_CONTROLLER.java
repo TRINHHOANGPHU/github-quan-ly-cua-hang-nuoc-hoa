@@ -111,8 +111,8 @@ public class NhapHang_CONTROLLER implements MouseListener{
 		if (e.getSource().equals(context.jTable)) {	
 			currentRow = context.jTable.getSelectedRow();
 			int maSP 		= (Integer) list.get(currentRow).getMaSP();	
-			int SoLuong 	= (Integer) context.jTable.getValueAt(currentRow, 1);
-			Double DonGia 	= (Double) 	context.jTable.getValueAt(currentRow, 2);
+			int SoLuong 	= (Integer) list.get(currentRow).getSoLuong();
+			Double DonGia 	= (Double) 	list.get(currentRow).getDonGia();
 			
 			context.setText(maSP, SoLuong, DonGia);
 			actionNhapHang = new ChiTietPhieuNhapDTO(phieuNhapNew.getMaPN(),maSP,SoLuong,DonGia);
@@ -176,6 +176,7 @@ public class NhapHang_CONTROLLER implements MouseListener{
 			context.updateTable(list,0);
 			context.disActiveNhapHang();
 			context.NhapHang_btn.setEnabled(true);
+			context.activateWarning("Tạo phiếu nhập thành công!");
 		}
 		// Xử lý clear textField
 		if (e.getSource().equals(context.Clear_btn)) {

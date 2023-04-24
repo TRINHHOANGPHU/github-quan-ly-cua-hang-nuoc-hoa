@@ -100,7 +100,8 @@ public class NhapHang_DAL implements DALinterface<ChiTietPhieuNhapDTO>{
 				ketqua = new SanPhamDTO();
 				ketqua.setMaSP(rs.getInt("maSP"));
 				ketqua.setTenSP(rs.getString("tenSP"));
-				ketqua.setGiaNhap(rs.getDouble("giaNhap"));		
+				ketqua.setGiaNhap(rs.getDouble("giaNhap"));	
+				ketqua.setSoLuong(rs.getInt("soLuong"));
 			}		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -108,7 +109,20 @@ public class NhapHang_DAL implements DALinterface<ChiTietPhieuNhapDTO>{
 			return null;
 		}
 		JDBCUtil.closeConnection(con);
-		return ketqua;
+		return ketqua;	
+	}
+	public void updateSLsanpham(int id, int soluong) {
+		Connection con = JDBCUtil.getConnection();
+		try {
+			String sql = "UPDATE sanpham SET soLuong =? WHERE maSP =?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, soluong);
+			st.setInt(2, id);
+			st.executeUpdate();
 		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		JDBCUtil.closeConnection(con);
 	}
 }

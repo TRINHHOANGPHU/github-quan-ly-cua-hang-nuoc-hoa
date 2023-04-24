@@ -26,6 +26,7 @@ import generalRules.fontChuDe;
 import generalRules.mauChuDe;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.text.DecimalFormat;
 
 public class NhapHang_VIEW extends JPanel {
 	public JPanel jPanel_Input;
@@ -217,12 +218,17 @@ public class NhapHang_VIEW extends JPanel {
 	}
 	
 	public void updateTable(ArrayList<ChiTietPhieuNhapDTO> list, double total) {
+		DecimalFormat formatter = new DecimalFormat("#,###,###");
 		model = new DefaultTableModel(datas, columns);
 		String nameSP;
+		int dGia;
+		int tGia;
 		for (ChiTietPhieuNhapDTO item : list) {
+			dGia = (int) item.getDonGia();
+			tGia = (int) item.getTongGia();
 			nameSP =NhapHang_BLL.getSPinfo(item.getMaSP()).getTenSP();
 			model.addRow(new Object[] {nameSP, item.getSoLuong(),
-					item.getDonGia(), (int)item.getTongGia()});
+					formatter.format(dGia), formatter.format(tGia)});
 		}
 		jTable.setModel(model);
 		total_label.setText("Tổng tiền: "+(int)total);
@@ -235,7 +241,7 @@ public class NhapHang_VIEW extends JPanel {
 	}
 	
 	public void activateWarning(String message) {
-		JOptionPane.showMessageDialog(this, message, "", JOptionPane.WARNING_MESSAGE);
+		JOptionPane.showMessageDialog(this, message, "Thông báo", JOptionPane.WARNING_MESSAGE);
 	}
 	
 }
